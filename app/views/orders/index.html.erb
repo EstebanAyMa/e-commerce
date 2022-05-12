@@ -1,0 +1,11 @@
+<% provide(:title, "Ordenes") %>
+
+<h1>Ordenes</h1>
+<div class="container">
+  <% if @orders.any? %>
+    <%= render 'orders_table', edit_dispatched: true %>
+    <%= will_paginate %>
+  <% else %>
+    <h2>No existen ordenes :(</h2>
+  <% end %>
+</div>
