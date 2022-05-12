@@ -1,6 +1,6 @@
-<% provide(:title, "Order Summary") %>
+<% provide(:title, "Resumen de Compra") %>
 
-<h1>Resumen de orden</h1>
+<h1>Resumen de Compra</h1>
 <div class="container">
   <div class="col-md-8">
     <div class="card">
@@ -37,7 +37,7 @@
   </div>
   <aside class="col-md-4">
     <section class="card">
-      <h2>Resumen de compra</h2>
+      <h2>Resumen de orden</h2>
       <dl>
         <dt>Producto Total:</dt>
         <dd>$<%= format_price(@shopping_bag.total) %></dd>
@@ -48,7 +48,7 @@
         <dt>Total:</dt>
         <dd>$<%= format_price(@shopping_bag.total + @shopping_bag.calculate_postage) %></dd>
       </dl>
-      <div id="paypal-button"></div>
+      <%= button_to "Aceptar", order_payment_path(@order), method: "patch", class: "btn btn-primary", disabled: !@shopping_bag.enough_stock?  %>
     </section>
   </aside>
 </div>

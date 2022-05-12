@@ -17,8 +17,8 @@
     <%= link_to "Ver", order_path(order), class: "btn btn-primary" %>
     <% if edit_dispatched %>
       <% if order.status < 3 %>
-        <%= link_to "Enviado", order_path(order),
-            method: :patch, data: { confirm: "Seguro?" },
+        <%= link_to "Enviar", order_path(order),
+            method: :patch, data: { confirm: "Enviar orden?" },
             remote: true, class: "btn btn-primary" %>
       <% end %>
     <% end %>

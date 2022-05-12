@@ -6,13 +6,13 @@
     <%= form_for(@contact) do |f| %>
       <%= render 'shared/error_messages', object: f.object %>
 
-      <%= f.label :name %>
+      <%= f.label :name, "Nombre" %>
       <%= f.text_field :name, class: 'form-control'%>
 
-      <%= f.label :email %>
+      <%= f.label :email, "Correo electronico" %>
       <%= f.email_field :email, class: 'form-control' %>
 
-      <%= f.label :message %>
+      <%= f.label :message, "Mensaje" %>
       <%= f.text_area :message, class: 'form-control', rows: "10" %>
 
       <%= f.submit "Enviar", class: "btn btn-primary"%>

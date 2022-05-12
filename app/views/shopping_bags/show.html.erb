@@ -1,16 +1,16 @@
-<% provide(:title, "Shopping Bag") %>
+<% provide(:title, "Orden de compra") %>
 
 <% if @bag_items.any? %>
-  <h1>Your shopping bag</h1>
+  <h1>Orden de compra</h1>
   <div class="container">
     <div class="col-md-8">
       <div class="card">
         <table id="bag_items">
           <tr>
-            <th>Item</th>
-            <th>Quantity</th>
-            <th>Price</th>
-            <th>Remove</th>
+            <th>Producto</th>
+            <th>Cantidad</th>
+            <th>Precio</th>
+            <th>Eliminar</th>
           </tr>
           <%= render @bag_items %>
         </table>
@@ -19,16 +19,13 @@
     <aside class="col-md-4">
       <section class="card">
         <dl>
-          <dt>Item Total:</dt>
+          <dt>Producto Total:</dt>
           <dd>$<%= format_price(@shopping_bag.total) %></dd>
         </dl>
-        <%= button_to "Checkout", new_order_path,
-                                  method: "get",
-                                  class: "btn btn-primary",
-                                  disabled: !@shopping_bag.enough_stock?  %>
+        <%= button_to "Pagar", new_order_path(payment: true), method: "get", class: "btn btn-primary", disabled: !@shopping_bag.enough_stock?  %>
       </section>
     </aside>
   </div>
 <% else %>
-  <h1>Your bag is empty</h1>
+  <h1>La orden de compra esta vacia.</h1>
 <% end %>

@@ -5,12 +5,12 @@ class BagItemsController < ApplicationController
     product = Product.find(params[:product_id])
     bag_item = @shopping_bag.add_product(product, bag_item_params)
     if bag_item.quantity > product.quantity
-      flash[:danger] = "Not enough available stock. You may already have this item in your shopping bag."
+      flash[:danger] = "No hay suficientes productos en almacen."
     else
       if bag_item.save
-        flash[:success] = "Item has been added to your bag"
+        flash[:success] = "Producto agregado a la orden de compra."
       else
-        flash[:danger] = "Sorry there was an issue adding this item"
+        flash[:danger] = "Error al agregar el producto."
       end
     end
     redirect_to product
@@ -19,12 +19,12 @@ class BagItemsController < ApplicationController
   def update
     @bag_item = BagItem.find(params[:id])
     if params[:bag_item][:quantity].to_i > @bag_item.product.quantity
-      flash[:danger] = "Not enough available stock"
+      flash[:danger] = "No hay suficientes productos en almacen"
     else
       if @bag_item.update_attributes(bag_item_params)
-        flash[:success] = "Item quantity has been updated"
+        flash[:success] = "La cantidad del producto ha sido actualizada en la orden de compra."
       else
-        flash[:danger] = "There was an issue"
+        flash[:danger] = "Error al actualizar la cantidad del producto."
       end
     end
     redirect_to shopping_bag_url
@@ -33,16 +33,16 @@ class BagItemsController < ApplicationController
   def destroy
     item = BagItem.find(params[:id])
     if item.destroy
-      flash[:success] = "Item has been removed from your bag"
+      flash[:success] = "El producto ha sido eliminado de la orden de compra."
     else
-      flash[:danger] = "Sorry there was an issue trying to remove item"
+      flash[:danger] = "Error al eliminar el producto de la orden de compra."
     end
     redirect_to shopping_bag_url
   end
 
   private
 
-    def bag_item_params
-      params.require(:bag_item).permit(:quantity)
-    end
+  def bag_item_params
+    params.require(:bag_item).permit(:quantity)
+  end
 end

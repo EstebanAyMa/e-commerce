@@ -1,9 +1,5 @@
-<h1>Howes that Designs</h1>
+<h1>Bienvenido al sitio de compras</h1>
+<p>Hola <%= @user.fullname %>,</p>
+<p>Bienvenido al sitio de compras. De click on la siguiente liga para activar su cuenta:</p>
 
-<p>Hi <%= @user.fullname %>,</p>
-
-<p>
-Welcome to the Howes that Designs website. Click on the link below to activate your account:
-</p>
-
-<%= link_to "Activate", edit_account_activation_url(@user.activation_token, email: @user.email) %>
+<%= link_to "Activar", edit_account_activation_url(@user.activation_token, email: @user.email) %>

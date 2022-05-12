@@ -10,7 +10,7 @@ class UsersController < ApplicationController
     @user = User.new(user_params)
     if @user.save
       @user.send_activation_email
-      flash[:info] = "Please check your email to activate your acccount"
+      flash[:info] = "Por favor, revise su correo electronico para activar cuenta."
       redirect_to root_url
     else
       render 'new'
@@ -24,7 +24,7 @@ class UsersController < ApplicationController
   def update
     @user = User.find(params[:id])
     if @user.update_attributes(user_params)
-      flash[:success] = "Profile has been updated."
+      flash[:success] = "Perfil ha sido actualizado."
       redirect_to edit_user_path @user
     else
       render 'edit'
@@ -33,13 +33,13 @@ class UsersController < ApplicationController
 
   private
 
-    def user_params
-       params.require(:user).permit(:first_name, :last_name, :email,
-                                    :password, :password_confirmation)
-    end
+  def user_params
+     params.require(:user).permit(:first_name, :last_name, :email,
+                                  :password, :password_confirmation)
+  end
 
-    def correct_user
-      user = User.find(params[:id])
-      redirect_to root_url unless current_user?(user)
-    end
+  def correct_user
+    user = User.find(params[:id])
+    redirect_to root_url unless current_user?(user)
+  end
 end

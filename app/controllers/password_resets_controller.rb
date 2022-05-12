@@ -11,10 +11,10 @@ class PasswordResetsController < ApplicationController
     if @user
       @user.create_reset_digest
       @user.send_password_reset_email
-      flash[:info] = "Email sent with password reset instructions"
+      flash[:info] = "Se ha enviado un correo para actualizar la contraseña"
       redirect_to root_url
     else
-      flash.now[:danger] = "Email address not found"
+      flash.now[:danger] = "Correo electronico no encontrado"
       render 'new'
     end
   end
@@ -24,12 +24,12 @@ class PasswordResetsController < ApplicationController
 
   def update
     if password_blank?
-      flash.now[:danger] = "Password can't be blank"
+      flash.now[:danger] = "La contraseña no puede estar vacia"
       render 'edit'
     elsif @user.update_attributes(user_params)
       log_in @user
-      flash[:success] = "Password has been reset."
-      redirect_to @user
+      flash[:success] = "La contraseña se ha actualizado."
+      redirect_to root_path
     else
       render 'edit'
     end
@@ -37,30 +37,30 @@ class PasswordResetsController < ApplicationController
 
   private
 
-    def user_params
-      params.require(:user).permit(:password, :password_confirmation)
-    end
+  def user_params
+    params.require(:user).permit(:password, :password_confirmation)
+  end
 
-    def password_blank?
-      params[:user][:password].blank?
-    end
+  def password_blank?
+    params[:user][:password].blank?
+  end
 
-    # Before filters
+  # Before filters
 
-    def get_user
-      @user = User.find_by(email: params[:email])
-    end
+  def get_user
+    @user = User.find_by(email: params[:email])
+  end
 
-    def valid_user
-      unless @user && @user.activated? && @user.authenticated?(:reset, params[:id])
-        redirect_to root_url
-      end
+  def valid_user
+    unless @user && @user.activated? && @user.authenticated?(:reset, params[:id])
+      redirect_to root_url
     end
+  end
 
-    def check_expiration
-      if @user.password_reset_expired?
-        flash[:danger] = "Password reset has expired."
-        redirect_to new_password_reset_url
-      end
+  def check_expiration
+    if @user.password_reset_expired?
+      flash[:danger] = "El link ha expirado."
+      redirect_to new_password_reset_url
     end
+  end
 end

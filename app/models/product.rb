@@ -9,7 +9,7 @@ class Product < ApplicationRecord
   validates :name,            presence: true
   validates :price,           presence: true,
                               format: { with: /\A\d+(?:\.\d{0,2})?\z/ },
-                              numericality: { greater_than: 0, less_than: 100 }
+                              numericality: { greater_than: 0, less_than: 20000 }
   validates :quantity,        presence: true, numericality: { only_integer: true }
   validate :image_size
 

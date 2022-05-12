@@ -1,5 +1,4 @@
 module BagItemsHelper
-
   def item_total
     if logged_in?
       current_user.shopping_bag.total

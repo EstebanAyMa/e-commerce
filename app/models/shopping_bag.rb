@@ -21,7 +21,7 @@ class ShoppingBag < ApplicationRecord
   end
 
   def calculate_postage
-    2.95
+    500
   end
 
   def enough_stock?

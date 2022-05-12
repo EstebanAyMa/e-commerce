@@ -12,7 +12,7 @@ class ProductsController < ApplicationController
           @title    = category.display_name
         else
           @products = Product.where("quantity > ?", "0").paginate(page: params[:page], per_page: 28)
-          @title    = "Shop all"
+          @title    = "Todos los productos"
         end
       }
       format.json { render json: Product.paginate(page: params[:page], per_page: params[:per_page]) }
@@ -34,9 +34,10 @@ class ProductsController < ApplicationController
   end
 
   def create
+    byebug
     @product = Product.new(product_params)
     if @product.save
-      flash[:success] = "Product has been added."
+      flash[:success] = "El producto ha sido agregado."
       redirect_to @product
     else
       get_sub_categories
@@ -53,7 +54,7 @@ class ProductsController < ApplicationController
   def update
     @product = Product.find(params[:id])
     if @product.update_attributes(product_params)
-      flash[:success] = "Product has been updated."
+      flash[:success] = "El producto ha sido actualizado."
       redirect_to @product
     else
       get_sub_categories
@@ -63,42 +64,42 @@ class ProductsController < ApplicationController
 
   def destroy
     if Product.find(params[:id]).delete
-      flash[:success] = "Product has been deleted"
+      flash[:success] = "El producto ha sido eliminado"
     else
-      flash[:danger] = "There was an issue trying to delete the product"
+      flash[:danger] = "Error al elimiar el producto."
     end
     redirect_to products_url
   end
 
   private
 
-    def product_params
-      params.require(:product).permit(:category_id, :sub_category_id,
-                                      :name, :description, :price, :quantity,
-                                      :primary_img, {other_imgs: []})
-    end
+  def product_params
+    params.require(:product).permit(:category_id, :sub_category_id,
+                                    :name, :description, :price, :quantity,
+                                    :primary_img, {other_imgs: []})
+  end
 
-    def get_categories
-      @categories = Category.all
-    end
+  def get_categories
+    @categories = Category.all
+  end
 
-    def get_sub_categories
-      @sub_cats = []
-      unless @product.category_id.blank?
-        @sub_cats = @product.category.sub_categories
+  def get_sub_categories
+    @sub_cats = []
+    unless @product.category_id.blank?
+      @sub_cats = @product.category.sub_categories
+    end
+  end
+
+  def handle_ajax
+    if params[:category].present?
+      @sub_cats = Category.find(params[:category]).sub_categories
+    end
+    if request.xhr?
+      respond_to do |format|
+        format.json {
+          render json: {sub_categories: @sub_cats}
+        }
       end
     end
-
-    def handle_ajax
-      if params[:category].present?
-        @sub_cats = Category.find(params[:category]).sub_categories
-      end
-      if request.xhr?
-        respond_to do |format|
-          format.json {
-            render json: {sub_categories: @sub_cats}
-          }
-        end
-      end
-    end
+  end
 end

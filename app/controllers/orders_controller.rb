@@ -89,26 +89,26 @@ class OrdersController < ApplicationController
 
   private
 
-    def order_params
-      params.require(:order).permit(
-        shipping_address_attributes: [ :user_id, :line_1, :line_2, :line_3,
-                                       :town, :county, :postcode ],
-        billing_address_attributes:  [ :user_id, :line_1, :line_2, :line_3,
-                                       :town, :county, :postcode ]
-      )
-    end
+  def order_params
+    params.require(:order).permit(
+      shipping_address_attributes: [ :user_id, :line_1, :line_2, :line_3,
+                                     :town, :county, :postcode ],
+      billing_address_attributes:  [ :user_id, :line_1, :line_2, :line_3,
+                                     :town, :county, :postcode ]
+    )
+  end
 
-    def correct_user
-      order = Order.find(params[:id])
-      redirect_to root_url unless current_user?(order.user) || current_user.admin?
-    end
+  def correct_user
+    order = Order.find(params[:id])
+    redirect_to root_url unless current_user?(order.user) || current_user.admin?
+  end
 
-    def get_previous_addresses
-     @shipping_addresses = current_user.orders.unscope(:order)
-                                       .distinct.select(:shipping_address_id)
-                                       .map { |x| x.shipping_address }
-     @billing_addresses  = current_user.orders.unscope(:order)
-                                       .distinct.select(:billing_address_id)
-                                       .map { |x| x.billing_address }
-    end
+  def get_previous_addresses
+   @shipping_addresses = current_user.orders.unscope(:order)
+                                     .distinct.select(:shipping_address_id)
+                                     .map { |x| x.shipping_address }
+   @billing_addresses  = current_user.orders.unscope(:order)
+                                     .distinct.select(:billing_address_id)
+                                     .map { |x| x.billing_address }
+  end
 end

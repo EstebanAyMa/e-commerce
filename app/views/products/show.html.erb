@@ -12,7 +12,7 @@
       <p class="mb-2"><%= @product.description %></p>
       <h2>$<%= format_price(@product.price) %></h2>
       <% if @product.has_stock? %>
-        <h3>Available: <%= @product.quantity %></h3>
+        <h3>En almacen: <%= @product.quantity %></h3>
         <%= form_for(@bag_item) do |f| %>
           <%= hidden_field_tag :product_id, @product.id %>
           <div class="input-group quantity mb-2">
@@ -28,15 +28,15 @@
               </button>
             </span>
           </div>
-          <%= f.submit "Add to bag", class: "btn btn-primary" %>
+          <%= f.submit "Agregar a la orden", class: "btn btn-primary" %>
         <% end %>
       <% else %>
-        <h3>Currently out of stock</h3>
+        <h3>No existente en almacen</h3>
       <% end %>
       <% if logged_in? && current_user.admin? %>
           <hr>
-          <%= link_to "Edit", edit_product_path(@product), class: "btn btn-primary" %>
-          <%= link_to "Delete", @product, method: :delete,
+          <%= link_to "Editar", edit_product_path(@product), class: "btn btn-primary" %>
+          <%= link_to "Eliminar", @product, method: :delete,
                                           data: { confirm: "You sure?" },
                                           class: "btn btn-danger" %>
       <% end %>

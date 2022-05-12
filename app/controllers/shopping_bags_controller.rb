@@ -5,8 +5,8 @@ class ShoppingBagsController < ApplicationController
     @bag_items = @shopping_bag.bag_items
     @order     = Order.new
     unless @shopping_bag.enough_stock?
-      msg  = "Sorry one or more items no longer has enough available stock. "
-      msg += "Please update or remove items highlighted in red."
+      msg  = "Lo sentimos, uno o mas productos no se encuentran en almacen. "
+      msg += "Por favor, actualice o elimine los productos marcados en rojo."
       flash.now[:danger] = msg
     end
   end

@@ -1,7 +1,7 @@
 # --- Users ----
 User.create!(first_name: "Esteban",
              last_name:  "Ayala",
-             email: "esteban.ayala@example.com.mx",
+             email: "esteban.ayala@empresa.com.mx",
              password:              "test1234",
              password_confirmation: "test1234",
              admin: true,
@@ -10,7 +10,7 @@ User.create!(first_name: "Esteban",
 
  User.create!(first_name: "Test",
               last_name:  "User",
-              email: "test.user@example.com.mx",
+              email: "test.user@empresa.com.mx",
               password:              "test1234",
               password_confirmation: "test1234",
               activated: true,
@@ -78,7 +78,7 @@ def add_order_items(order)
     item = order.order_items.create!(product_id: rand(1..Product.count), quantity: rand(1..4))
     item_total += item.product.price * item.quantity
   end
-  order.update(item_total: item_total, postage: 1200)
+  order.update(item_total: item_total, postage: 500)
 end
 
 2.times do |n|
@@ -91,7 +91,7 @@ end
   add_order_items(order)
 end
 
-30.times do |n|
+3.times do |n|
   order = Order.create!(user: User.last, status: 3, shipping_address_id: 1, billing_address_id: 1, created_at: 3.days.ago,)
   add_order_items(order)
 end
