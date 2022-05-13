@@ -34,7 +34,6 @@ class ProductsController < ApplicationController
   end
 
   def create
-    byebug
     @product = Product.new(product_params)
     if @product.save
       flash[:success] = "El producto ha sido agregado."
